@@ -86,11 +86,27 @@ public class WebController {
         Mono<String> employeeMono = WebClient.create(demoPostgresJpaRestUrl)
                 .get()
                 .uri(getDemoPostgressJpaUri(employeeId))
+//                .header("Authorization", "Basic " + Base64Utils
+//                        .encodeToString((username + ":" + token).getBytes(UTF_8)))
                 //.exchangeToMono()
                 .retrieve()
                 .bodyToMono(String.class);
 
         employeeMono.subscribe(employee -> LOG.info(employee));
+
+//        Mono<String> response = headersSpec.exchangeToMono(response -> {
+//            if (response.statusCode()
+//                    .equals(HttpStatus.OK)) {
+//                return response.bodyToMono(String.class);
+//            } else if (response.statusCode()
+//                    .is4xxClientError()) {
+//                return Mono.just("Error response");
+//            } else {
+//                return response.createException()
+//                        .flatMap(Mono::error);
+//            }
+//        });
+
         LOG.info("Exiting NON-BLOCKING getEmployeefromDb Controller!");
         return employeeMono;
     }
